@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { fetchImages } from './Api/Api';
+import axios from 'axios';
+import { useFetch } from './Api/Api';
 import { Loader } from './Loader/Loader';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem';
 import { Modal } from './Modal/Modal';
 import { Button } from './Button/Button';
-import axios from 'axios';
 
 // const INITIAL_STATE = {
 //   images: [],
@@ -18,35 +18,40 @@ import axios from 'axios';
 //   page: 1,
 // };
 
+const API_KEY = '29396920-d4426056c3f6851287cd3980f';
+
 export const App = () => {
-  const [images, setImages] = useState([]);
-  const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [images, setImages] = useState([]);
+  // const [error, setError] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [largeImage, setLargeImage] = useState('');
   const [page, setPage] = useState(1);
+  const { images, error, isLoading } = useFetch(query, page, 12);
 
-  useEffect(() => {
-    const fetchImages = async (query, page, perPage) => {
-      const result = await axios.get(
-        `https://pixabay.com/api/?key=29396920-d4426056c3f6851287cd3980f&q=${query}&page=${page}&image_type=photo&orientation=horizontal&per_page=${perPage}&safesearch=true`
-      );
-      setImages(oldImages => [...result.data.hits]);
-      console.log(result.data.hits);
-    };
-    fetchImages('cat', page, 12);
-  }, []);
+  // useEffect(() => {
+  //   const fetchImages = async (query, page, perPage) => {
+  //     const result = await axios.get(
+  //       `https://pixabay.com/api/?key=${API_KEY}&q=${query}&page=${page}&image_type=photo&orientation=horizontal&per_page=${perPage}&safesearch=true`
+  //     );
+  //     setImages(oldImages => [...result.data.hits]);
+  //     console.log(result.data.hits);
+  //   };
+  //   fetchImages('cat', page, 12);
+  // }, []);
 
-  // return (
-  //   <ImageGallery>
-  //     <ImageGalleryItem
-  //       images={images}
-  //       // onClick={this.handleImageClick}
-  //       loading={isLoading}
-  //     />
-  //   </ImageGallery>
-  // );
+  return (
+    <div>
+      {isLoading ? <Loader /> : null}
+      <ImageGallery>
+        <ImageGalleryItem
+          images={images}
+          // onClick={this.handleImageClick}
+        />
+      </ImageGallery>
+    </div>
+  );
 };
 
 // export class App extends Component {
