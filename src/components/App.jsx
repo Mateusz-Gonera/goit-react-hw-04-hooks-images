@@ -41,17 +41,17 @@ export const App = () => {
   //   fetchImages('cat', page, 12);
   // }, []);
 
-  return (
-    <div>
-      {isLoading ? <Loader /> : null}
-      <ImageGallery>
-        <ImageGalleryItem
-          images={images}
-          // onClick={this.handleImageClick}
-        />
-      </ImageGallery>
-    </div>
-  );
+  // return (
+  //   <div>
+  //     {isLoading ? <Loader /> : null}
+  //     <ImageGallery>
+  //       <ImageGalleryItem
+  //         images={images}
+  //         // onClick={this.handleImageClick}
+  //       />
+  //     </ImageGallery>
+  //   </div>
+  // );
 };
 
 // export class App extends Component {
