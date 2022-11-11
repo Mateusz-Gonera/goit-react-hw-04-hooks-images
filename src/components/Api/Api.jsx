@@ -19,16 +19,18 @@ export const useFetch = (query, page, perPage) => {
     setError(false);
     try {
       const fetchImages = async () => {
-        const result = await axios.get(
-          `https://pixabay.com/api/?key=${API_KEY}&q=${query}&page=${page}&image_type=photo&orientation=horizontal&per_page=${perPage}&safesearch=true`
-        );
-        setImages(oldImages => [...oldImages, ...result.data.hits]);
+        await axios
+          .get(
+            `https://pixabay.com/api/?key=${API_KEY}&q=${query}&page=${page}&image_type=photo&orientation=horizontal&per_page=${perPage}&safesearch=true`
+          )
+          .then(response => {
+            setImages(oldImages => [...oldImages, ...response.data.hits]);
+            handleLoadingFalse();
+          });
       };
       fetchImages();
     } catch (error) {
       handleError();
-    } finally {
-      handleLoadingFalse();
     }
   }, [query, page, perPage]);
 
